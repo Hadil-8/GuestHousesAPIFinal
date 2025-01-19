@@ -3,7 +3,7 @@ import pandas as pd
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import create_engine, text
 
-# Use the updated `declarative_base` from SQLAlchemy 2.0
+
 Base = declarative_base()
 
 # SQLite database URL
@@ -12,7 +12,6 @@ DATABASE_URL = "sqlite:///./GHsys.db"
 # Create the SQLAlchemy engine
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
-# Create a session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Ensure CSV files exist and are not empty
@@ -45,17 +44,15 @@ with engine.connect() as conn:
 
 print("Data successfully inserted into the database.")
 
-# Query and print data using SQLAlchemy
+#
 session = SessionLocal()
 
 try:
-    # Fetch data from the Activities table using `text()` to wrap the SQL query
     activities_data = session.execute(text("SELECT * FROM Activities")).fetchall()
     print("\nActivities Data:")
     for row in activities_data:
         print(row)
 
-    # Fetch data from the GuestHouses table using `text()` to wrap the SQL query
     guesthouses_data = session.execute(text("SELECT * FROM GuestHouses")).fetchall()
     print("\nGuestHouses Data:")
     for row in guesthouses_data:
